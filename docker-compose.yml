@@ -1,0 +1,16 @@
+version: "3.6"
+
+services:
+  spiderkeeper:
+    image: zwilson/docker-spiderkeeper
+    build: .
+    depends_on:
+      - scrapyd
+    ports:
+      - 5000:5000
+    command: spiderkeeper --verbose --server=http://scrapyd:6800
+  scrapyd:
+    image: zwilson/docker-scrapyd
+    volumes:
+      - "./configs/scrapyd/scrapyd.conf:/etc/scrapyd/scrapyd.conf"
+    command: scrapyd
